@@ -43,9 +43,9 @@ function App() {
                   continue
                }
             }
-            setGasFootprint((res[firstValue - 8].distance - res[secondValue - 8].distance)*0.061);
+            setGasFootprint(Math.ceil((res[firstValue - 8].distance - res[secondValue - 8].distance)*0.061));
             setUs(Math.ceil(usSum));
-            setUsPas(Math.ceil(usPasSum));
+            setUsPas(Math.floor(usPasSum));
          })
          .catch(e => console.log(e))
    }
