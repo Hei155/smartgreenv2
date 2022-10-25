@@ -43,7 +43,7 @@ function App() {
                   continue
                }
             }
-            setGasFootprint((res[firstValue - 8].distance - res[secondValue - 8].distance)*61);
+            setGasFootprint((res[firstValue - 8].distance - res[secondValue - 8].distance)*0.061);
             setUs(Math.ceil(usSum));
             setUsPas(Math.ceil(usPasSum));
          })
