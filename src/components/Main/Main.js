@@ -1,8 +1,27 @@
 import { YMaps, Map, Placemark, Polyline, GeoObject } from '@pbe/react-yandex-maps';
 import { type } from '@testing-library/user-event/dist/type';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 export const Main = (props) => {
+    const map = useRef(null);
+    const addRoute = (ymaps) => {
+        const pointA = [55.749, 37.524]; // Москва
+        const pointB = [59.918072, 30.304908]; // Санкт-Петербург
+    
+        const multiRoute = new ymaps.multiRouter.MultiRoute(
+          {
+            referencePoints: [pointA, pointB],
+            params: {
+              routingMode: "pedestrian"
+            }
+          },
+          {
+            boundsAutoApply: true
+          }
+        );
+    
+        map.current.geoObjects.add(multiRoute);
+      };
     return (
         <main className="main">
             <section className="file">
@@ -27,22 +46,10 @@ export const Main = (props) => {
                         <span className="processed__data processed__data_strong">Экономия углеродного следа при поездке на общественном транспорте составит: {Math.ceil(props.gasFootprint - props.usPas)} {props.checkGramEnding(Math.ceil(props.gasFootprint - props.usPas))}</span>
                     </form>
                     <div className="map">
-                        <YMaps>
-                            <Map defaultState={{center: props.settings, zoom: 8}} width='500px' height='500px'>
+                    <YMaps>
+                        <Map defaultState={{center: props.settings, zoom: 8}} width='500px' height='500px'>
                                 <Placemark geometry={[props.coordinates.firstPoint[0], props.coordinates.firstPoint[1]]} />
                                 <Placemark geometry={[props.coordinates.secondPoint[0], props.coordinates.secondPoint[1]]} />
-                                <GeoObject  
-                                geometry={{
-                                    type: 'LineString',
-                                    coordinates: [
-                                        [props.coordinates.firstPoint[0], props.coordinates.firstPoint[1]],
-                                        [props.coordinates.secondPoint[0], props.coordinates.secondPoint[1]],
-                                    ],
-                                }}
-                                options={{
-                                    strokeWidth: 6,
-                                }}
-                                />
                             </Map>
                         </YMaps>
                     </div>
